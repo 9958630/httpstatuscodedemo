@@ -4,14 +4,22 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Objects;
+
 @RestController
 public class HomeController {
 
-    @GetMapping("/getCustomerName")
-    public ResponseEntity<String> getMyCustmerName(){
-        String str = "Spring boot and micro services ";
+    @GetMapping("/getCustomerName/{name}")
+    public ResponseEntity<Object> getMyCustmerName(@PathVariable("name") String name){
+        String str = "Customer Details not found in DB ";
+
         //return new ResponseEntity<>(str, HttpStatus.OK);
-        return new ResponseEntity<>(str,HttpStatus.CREATED);
+        Customer customer = new Customer();
+        customer.setCustomerAddr("India");
+        if(name.equalsIgnoreCase("customer")){
+            return new ResponseEntity<>(customer,HttpStatus.OK);
+        }
+        return new ResponseEntity<>(str,HttpStatus.OK);
     }
 
     @PostMapping("/saveCustomer")
